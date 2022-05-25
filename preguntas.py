@@ -10,7 +10,6 @@ Naive Bayes para determinar el sentimiento de un comentario.
 """
 import numpy as np
 import pandas as pd
-import csv
 
 
 def pregunta_01():
@@ -117,9 +116,9 @@ def pregunta_04():
     countVectorizer = CountVectorizer(
         analyzer= analyzer,
         lowercase= True,
-        stop_words= None,
-        token_pattern= r'[A-Za-z]+',
-        binary= False,
+        stop_words= "english",
+        token_pattern= r"(?u)\b[a-zA-Z][a-zA-Z]+\b",
+        binary= True,
         max_df=1.0,
         min_df=5,
     )
@@ -147,7 +146,7 @@ def pregunta_04():
         cv= 5,
         scoring= "accuracy",
         refit= True,
-        return_train_score= False,
+        return_train_score= True,
     )
 
     # Búsque la mejor combinación de regresores
