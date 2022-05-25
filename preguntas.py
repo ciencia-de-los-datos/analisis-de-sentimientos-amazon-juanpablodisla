@@ -29,8 +29,8 @@ def pregunta_01():
     )
 
     # Separe los grupos de mensajes etiquetados y no etiquetados.
-    df_tagged = df[df["lbl"].notnull()]
-    df_untagged = df[df["lbl"].isnull()]
+    df_tagged = df[(df["lbl"] >=0)]
+    df_untagged = df[(df["lbl"].isna())]
 
     x_tagged = df_tagged["msg"]
     y_tagged = df_tagged["lbl"]
@@ -81,8 +81,7 @@ def pregunta_03():
     stemmer = PorterStemmer()
 
     # Cree una instancia del analizador de palabras (build_analyzer)
-    analyzer = CountVectorizer().build_analyzer()
-
+    analyzer = CountVectorizer(analyzer="word",token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]+\b", lowercase=True).build_analyzer()
     # Retorne el analizador de palabras
     return lambda x: (stemmer.stem(w) for w in analyzer(x))
 
@@ -134,8 +133,8 @@ def pregunta_04():
     # Defina un diccionario de parámetros para el GridSearchCV. Se deben
     # considerar 10 valores entre 0.1 y 1.0 para el parámetro alpha de
     # BernoulliNB.
-    param_grid = {
-        "BernoulliNB__alpha": np.linspace(0.1, 1.0, num=10),
+    param_grid =  {
+        "bernoulli__alpha": np.arange(0.1,1.01, 0.1),
     }
 
     # Defina una instancia de GridSearchCV con el pipeline y el diccionario de
